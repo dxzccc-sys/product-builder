@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generate-btn');
-    const ballContainer = document.getElementById('lotto-numbers');
     const themeBtn = document.getElementById('theme-btn');
     const body = document.body;
+    const dropZone = document.getElementById('drop-zone');
+    const imageUpload = document.getElementById('image-upload');
+    const resultContainer = document.getElementById('result-container');
+    const uploadArea = document.getElementById('upload-area');
+    const faceImage = document.getElementById('face-image');
+    const labelContainer = document.getElementById('label-container');
+    const retryBtn = document.getElementById('retry-btn');
+    const loading = document.getElementById('loading');
+
+    // Teachable Machine Model URL
+    const URL = 'https://teachablemachine.withgoogle.com/models/dMPinJ0y0/';
+    let model, maxPredictions;
 
     // Load initial theme
     const currentTheme = localStorage.getItem('theme') || 'light';
@@ -19,36 +29,84 @@ document.addEventListener('DOMContentLoaded', () => {
         themeBtn.textContent = isDarkMode ? '☀️' : '🌙';
     });
 
-    // Lotto Generation Logic
-    generateBtn.addEventListener('click', () => {
-        const numbers = generateLottoNumbers();
-        displayNumbers(numbers);
+    // Model Initialization
+    async function init() {
+        const modelURL = URL + 'model.json';
+        const metadataURL = URL + 'metadata.json';
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+    }
+
+    // Image Upload Logic
+    dropZone.addEventListener('click', () => imageUpload.click());
+
+    imageUpload.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+            handleImage(e.target.files[0]);
+        }
     });
 
-    function generateLottoNumbers() {
-        const numbers = new Set();
-        while (numbers.size < 6) {
-            const randomNum = Math.floor(Math.random() * 45) + 1;
-            numbers.add(randomNum);
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = 'var(--button-bg)';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.borderColor = 'var(--ball-empty-bg)';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleImage(e.dataTransfer.files[0]);
         }
-        return Array.from(numbers).sort((a, b) => a - b);
+    });
+
+    async function handleImage(file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            faceImage.src = e.target.result;
+            uploadArea.style.display = 'none';
+            loading.style.display = 'block';
+            
+            if (!model) await init();
+            await predict();
+            
+            loading.style.display = 'none';
+            resultContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
     }
 
-    function displayNumbers(numbers) {
-        ballContainer.innerHTML = '';
-        numbers.forEach(num => {
-            const ball = document.createElement('div');
-            ball.className = `ball ${getColorClass(num)}`;
-            ball.textContent = num;
-            ballContainer.appendChild(ball);
-        });
+    async function predict() {
+        const prediction = await model.predict(faceImage);
+        labelContainer.innerHTML = '';
+        
+        // Sort predictions by probability
+        prediction.sort((a, b) => b.probability - a.probability);
+
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction = prediction[i].className;
+            const probability = (prediction[i].probability * 100).toFixed(0);
+            
+            const barWrapper = document.createElement('div');
+            barWrapper.className = 'result-bar-wrapper';
+            barWrapper.innerHTML = `
+                <div class="result-label">
+                    <span>${classPrediction}</span>
+                    <span>${probability}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${probability}%"></div>
+                </div>
+            `;
+            labelContainer.appendChild(barWrapper);
+        }
     }
 
-    function getColorClass(num) {
-        if (num <= 10) return 'n1-10';
-        if (num <= 20) return 'n11-20';
-        if (num <= 30) return 'n21-30';
-        if (num <= 40) return 'n31-40';
-        return 'n41-45';
-    }
+    retryBtn.addEventListener('click', () => {
+        resultContainer.style.display = 'none';
+        uploadArea.style.display = 'block';
+        imageUpload.value = '';
+    });
 });

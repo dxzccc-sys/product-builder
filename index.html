@@ -3,24 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추첨기</title>
+    <title>동물상 테스트 (강아지 vs 고양이)</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <div id="app">
         <div class="theme-toggle">
             <button id="theme-btn" aria-label="테마 변경">🌙</button>
         </div>
-        <h1>로또 번호 추첨기</h1>
-        <div id="lotto-numbers">
-            <div class="ball">?</div>
-            <div class="ball">?</div>
-            <div class="ball">?</div>
-            <div class="ball">?</div>
-            <div class="ball">?</div>
-            <div class="ball">?</div>
+        <h1>동물상 테스트</h1>
+        <p class="subtitle">나의 얼굴은 강아지상일까, 고양이상일까?</p>
+        
+        <div id="upload-area">
+            <input type="file" id="image-upload" accept="image/*" hidden>
+            <div id="drop-zone">
+                <div class="upload-icon">📷</div>
+                <p>사진을 업로드하거나 드래그하세요</p>
+            </div>
         </div>
-        <button id="generate-btn">번호 생성하기</button>
+
+        <div id="result-container" style="display: none;">
+            <img id="face-image" src="" alt="Uploaded Face">
+            <div id="label-container"></div>
+            <button id="retry-btn">다시 하기</button>
+        </div>
+
+        <div id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>모델 분석 중...</p>
+        </div>
 
         <div class="divider"></div>
 
