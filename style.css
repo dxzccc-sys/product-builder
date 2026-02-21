@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -10,12 +10,64 @@ body {
 
 #app {
     background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 90%;
+    max-width: 500px;
 }
 
 h1 {
-    color: #333;
+    color: #2c3e50;
+    margin-bottom: 2rem;
 }
+
+#lotto-numbers {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.ball:hover {
+    transform: scale(1.1);
+}
+
+#generate-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#generate-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Lotto Ball Colors */
+.n1-10 { background-color: #f1c40f; color: #333; } /* Yellow */
+.n11-20 { background-color: #3498db; }             /* Blue */
+.n21-30 { background-color: #e74c3c; }             /* Red */
+.n31-40 { background-color: #95a5a6; }             /* Gray */
+.n41-45 { background-color: #2ecc71; }             /* Green */
