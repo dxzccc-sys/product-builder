@@ -1,25 +1,70 @@
+:root {
+    --bg-color: #f4f7f6;
+    --text-color: #2c3e50;
+    --card-bg-color: #ffffff;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --ball-empty-bg: #eee;
+    --ball-empty-text: #888;
+    --transition-speed: 0.3s;
+}
+
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #f4f7f6;
+    --card-bg-color: #2d2d2d;
+    --button-bg: #4a90e2;
+    --button-hover: #357abd;
+    --ball-empty-bg: #444;
+    --ball-empty-text: #ccc;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 #app {
-    background-color: white;
+    background-color: var(--card-bg-color);
     padding: 3rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 90%;
     max-width: 500px;
+    position: relative;
+    transition: background-color var(--transition-speed);
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+#theme-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+
+#theme-btn:hover {
+    transform: scale(1.1);
 }
 
 h1 {
-    color: #2c3e50;
+    color: var(--text-color);
     margin-bottom: 2rem;
 }
 
@@ -35,15 +80,15 @@ h1 {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #eee;
+    background-color: var(--ball-empty-bg);
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1.2rem;
-    color: white;
+    color: var(--ball-empty-text);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color var(--transition-speed);
 }
 
 .ball:hover {
@@ -51,23 +96,23 @@ h1 {
 }
 
 #generate-btn {
-    background-color: #3498db;
+    background-color: var(--button-bg);
     color: white;
     border: none;
     padding: 0.8rem 2rem;
     font-size: 1.1rem;
     border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color var(--transition-speed);
 }
 
 #generate-btn:hover {
-    background-color: #2980b9;
+    background-color: var(--button-hover);
 }
 
-/* Lotto Ball Colors */
-.n1-10 { background-color: #f1c40f; color: #333; } /* Yellow */
-.n11-20 { background-color: #3498db; }             /* Blue */
-.n21-30 { background-color: #e74c3c; }             /* Red */
-.n31-40 { background-color: #95a5a6; }             /* Gray */
-.n41-45 { background-color: #2ecc71; }             /* Green */
+/* Lotto Ball Colors (Shared) */
+.ball.n1-10 { background-color: #f1c40f; color: #333; }
+.ball.n11-20 { background-color: #3498db; color: white; }
+.ball.n21-30 { background-color: #e74c3c; color: white; }
+.ball.n31-40 { background-color: #95a5a6; color: white; }
+.ball.n41-45 { background-color: #2ecc71; color: white; }
