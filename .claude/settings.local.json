@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -f index.html main.js style.css 계정.txt)",
+      "Bash(rm -rf .gemini)",
+      "Bash(npx:*)",
+      "Bash(cp:*)"
+    ]
+  }
+}
