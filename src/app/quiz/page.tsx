@@ -134,7 +134,10 @@ function QuizPageInner() {
           icon: db.icon,
         });
         setAllQuestions(mappedQuestions);
-        setChapters(topicsToChapters(mappedQuestions));
+        // DB 과목은 setup 없이 바로 session 시작
+        setSessionQuestions([...mappedQuestions].sort(() => Math.random() - 0.5));
+        setStep("session");
+        return;
       } else {
         // Mock 데이터 사용
         const found = mockSubjects.find((s) => s.id === subjectId) ?? mockSubjects[0];
@@ -159,7 +162,11 @@ function QuizPageInner() {
   };
 
   const handleRetry = () => {
-    if (config) {
+    if (isDbSubject) {
+      setSessionQuestions([...allQuestions].sort(() => Math.random() - 0.5));
+      setResults([]);
+      setStep("session");
+    } else if (config) {
       setSessionQuestions(generateQuestions(config, allQuestions));
       setResults([]);
       setStep("session");
@@ -205,18 +212,21 @@ function QuizPageInner() {
 
           {/* Step indicator */}
           <div className="flex items-center gap-1.5">
-            {(["setup", "session", "result"] as const).map((s, i) => (
-              <div
-                key={s}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  step === s
-                    ? "w-6 bg-blue-500"
-                    : i < ["setup", "session", "result"].indexOf(step as "setup" | "session" | "result")
-                    ? "w-2 bg-blue-300"
-                    : "w-2 bg-muted"
-                }`}
-              />
-            ))}
+            {(isDbSubject ? ["session", "result"] : ["setup", "session", "result"] as const).map((s, i) => {
+              const steps = isDbSubject ? ["session", "result"] : ["setup", "session", "result"];
+              return (
+                <div
+                  key={s}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    step === s
+                      ? "w-6 bg-blue-500"
+                      : i < steps.indexOf(step)
+                      ? "w-2 bg-blue-300"
+                      : "w-2 bg-muted"
+                  }`}
+                />
+              );
+            })}
           </div>
         </div>
       </header>
