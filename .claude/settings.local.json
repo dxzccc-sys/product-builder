@@ -4,7 +4,31 @@
       "Bash(rm -f index.html main.js style.css 계정.txt)",
       "Bash(rm -rf .gemini)",
       "Bash(npx:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(curl:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Skill(update-config)",
+      "Bash(claude mcp:*)",
+      "Bash(python -m json.tool)",
+      "Bash(npm install:*)",
+      "Bash(python:*)",
+      "Bash(xargs sed:*)",
+      "mcp__supabase__get_project",
+      "mcp__supabase__list_tables",
+      "mcp__supabase__apply_migration",
+      "mcp__supabase__execute_sql",
+      "mcp__supabase__deploy_edge_function",
+      "Bash(node:*)",
+      "mcp__supabase__get_logs",
+      "Bash(find /c/Users/LEE/AppData -name *.json)",
+      "Bash(xargs grep:*)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__get_edge_function",
+      "Bash(echo \"Exit: $?\")",
+      "Read(//tmp/**)"
     ]
   }
 }

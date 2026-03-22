@@ -9,7 +9,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "ExamReady - 회사 시험 대비 AI 학습",
+  title: "ExamCraft - 회사 시험 대비 AI 학습",
   description: "PDF 자료를 업로드하면 AI가 기출문제, 요약, 약점 분석을 제공합니다",
 };
 

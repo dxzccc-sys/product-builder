@@ -93,7 +93,11 @@ export default function SubjectCard({ subject, isSelected, onSelect }: SubjectCa
           <span
             className={`rounded-full px-2 py-0.5 text-xs font-medium ${badgeColorMap[subject.color]}`}
           >
-            {subject.completedChapters}/{subject.totalChapters} 챕터
+            {subject.totalChapters > 0
+              ? subject.completedChapters > 0
+                ? `${subject.completedChapters}/${subject.totalChapters} 챕터`
+                : `${subject.totalChapters}문제`
+              : "문제 없음"}
           </span>
         </div>
       </CardContent>
